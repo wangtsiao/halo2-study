@@ -2,9 +2,9 @@ use std::marker::PhantomData;
 use halo2_proofs::{
     circuit::*,
     plonk::*,
-    arithmetic::Field,
+    poly::Rotation,
+    arithmetic::FieldExt,
 };
-use halo2_proofs::poly::Rotation;
 
 #[derive(Copy, Clone)]
 struct FibonacciConfig {
@@ -14,12 +14,12 @@ struct FibonacciConfig {
 }
 
 #[derive(Copy, Clone)]
-struct FibonacciChip<F: Field> {
+struct FibonacciChip<F: FieldExt> {
     config: FibonacciConfig,
     _maker: PhantomData<F>,
 }
 
-impl<F: Field> FibonacciChip<F> {
+impl<F: FieldExt> FibonacciChip<F> {
     fn construct(config: FibonacciConfig) -> Self {
         Self {
             config,
@@ -108,10 +108,10 @@ impl<F: Field> FibonacciChip<F> {
 }
 
 #[derive(Copy, Clone, Default)]
-struct MyCircuit<F: Field>(PhantomData<F>);
+struct MyCircuit<F: FieldExt>(PhantomData<F>);
 
 
-impl<F: Field> Circuit<F> for MyCircuit<F> {
+impl<F: FieldExt> Circuit<F> for MyCircuit<F> {
     type Config = FibonacciConfig;
     type FloorPlanner = SimpleFloorPlanner;
 
